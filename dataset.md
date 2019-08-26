@@ -42,15 +42,28 @@ def augment(url, parameters):
 
 Notice that ```python secrets = hidden.oauth() ``` is a function where we stored my keys to make the request on Twitter (you should sign up to have it).
 
-Once we do it, we received a json file with a lot of information; we weren't interested on it totally so we filtered it and saved only the main features like:
+Once we do it, we received a JSON file with a lot of information; we weren't interested on it totally so we filtered it and saved only the main features like:
 
 1. **id**
 2. **screen_name.**
 3. **created_at.**
 4. **full_text.**
 
-Here is an example:
-```json
+Give a look to this code
+```python
+full_text = remove_emoji(jsonData['statuses'][i]['full_text'].encode('ascii', 'ignore'))
+                regex = re.compile(r'[\n\r\t]')
+                strFull_text = regex.sub(" ", full_text)
+                f.write(
+                    "\n\t{\n\t\"id\":" + "\"" + jsonData['statuses'][i]['id_str'] + "\"" + "," +
+                    "\t\"screen_name\":" + "\"" + jsonData['statuses'][i]['user']['screen_name'] + "\"" + "," +
+                    "\t\"created_at\":" + "\"" + jsonData['statuses'][i]['created_at'] + "\"" + "," +
+                    "\t\"full_text\":" + "\"" + strFull_text + "\"" + "}\n")
+```
+We striped all the tabs and newline in order to don't have any problem when we save them inside a JSON file, in fact, we've used ```python f.write ``` to write it.
+
+Here there is an example of the output:
+```JSON
 {
   "tweet": [
     {
