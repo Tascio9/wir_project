@@ -40,7 +40,7 @@ def augment(url, parameters):
     return oauth_request.to_url()
 ```
 
-Notice that ```python secrets = hidden.oauth() ``` is a function where we stored my keys to make the request on Twitter (you should sign up to have it).
+Notice that ```secrets = hidden.oauth()``` is a function where we stored my keys to make the request on Twitter (you should sign up to have it).
 
 Once we do it, we received a JSON file with a lot of information; we weren't interested on it totally so we filtered it and saved only the main features like:
 
@@ -60,7 +60,7 @@ full_text = remove_emoji(jsonData['statuses'][i]['full_text'].encode('ascii', 'i
                     "\t\"created_at\":" + "\"" + jsonData['statuses'][i]['created_at'] + "\"" + "," +
                     "\t\"full_text\":" + "\"" + strFull_text + "\"" + "}\n")
 ```
-We striped all the tabs and newline in order to don't have any problem when we save them inside a JSON file, in fact, we've used ```python f.write ``` to write it.
+We striped all the tabs and newline in order to don't have any problem when we save them inside a JSON file, in fact, we've used ```f.write``` to write it.
 
 Here there is an example of the output:
 ```JSON
