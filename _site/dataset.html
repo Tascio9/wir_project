@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Dataset</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/solar/bootstrap.min.css" rel="stylesheet" integrity="sha384-8nq3OiMMgrVFAHyRMMO+DTfMEciSY+c3Awhj/5ljQ1xck1Uv2BUtMjsjLD8GT5Er" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav>
+  
+    <a href="/" >Home</a>
+  
+    <a href="/dataset.html" class="current">Dataset</a>
+  
+    <a href="/twitter.html" >Twitter's API</a>
+  
+</nav>
+
+    <h1 id="-dataset">– Dataset</h1>
+
+<p>A first obstacle of our project was the absence of a dataset which contains tweets classified with our labels (AdministrativeArea, Book, …).</p>
+
+<p>So, in order to test our Knowledge Base (KB), we had to create this dataset and labeled it.
+How? First of all, we used Twitter’s API to obtain tweets. We’ve researched them using a query with some particular features:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">'https://api.twitter.com/1.1/search/tweets.json'</span><span class="p">,</span>
+                  <span class="p">{</span><span class="s">'q'</span><span class="p">:</span> <span class="s">'from:@'</span> <span class="o">+</span> <span class="n">search</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="s">'count'</span><span class="p">:</span> <span class="s">'20'</span><span class="p">,</span> <span class="s">'result_type'</span><span class="p">:</span> <span class="s">'popular'</span><span class="p">,</span> <span class="s">'tweet_mode'</span><span class="p">:</span> <span class="s">'extended'</span><span class="p">,</span>
+                   <span class="s">'lang'</span><span class="p">:</span> <span class="s">'en'</span><span class="p">})</span>
+
+<span class="c1"># Inside URL, you will put all the parameters in which you are interested:
+# -- q:             is the term searched (in my case, I've added 'from:@' because I wanted all the tweets
+#                   written by a specific user, you can modify it as you like);
+# -- count:         limits the number of tweets;
+# -- result_type:   choose between 'popular', 'recent', 'mixed';
+# -- tweet_mode:    with this parameter, we have the COMPLETE text of the tweet, otherwise, limited by 120 chars;
+# -- lang:          only english tweets;
+</span>
+<span class="c1"># More details: https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets.html
+</span></code></pre></div></div>
+
+<p>As we can see, this script create a request to call the Twitter’s API and catch all the tweets with that parameters. But to complete this request in a secured way, we need the following function to make it:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">augment</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+    <span class="n">secrets</span> <span class="o">=</span> <span class="n">hidden</span><span class="o">.</span><span class="n">oauth</span><span class="p">()</span>
+    <span class="n">consumer</span> <span class="o">=</span> <span class="n">oauth</span><span class="o">.</span><span class="n">OAuthConsumer</span><span class="p">(</span><span class="n">secrets</span><span class="p">[</span><span class="s">'consumer_key'</span><span class="p">],</span> <span class="n">secrets</span><span class="p">[</span><span class="s">'consumer_secret'</span><span class="p">])</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">oauth</span><span class="o">.</span><span class="n">OAuthToken</span><span class="p">(</span><span class="n">secrets</span><span class="p">[</span><span class="s">'token_key'</span><span class="p">],</span> <span class="n">secrets</span><span class="p">[</span><span class="s">'token_secret'</span><span class="p">])</span>
+
+    <span class="n">oauth_request</span> <span class="o">=</span> <span class="n">oauth</span><span class="o">.</span><span class="n">OAuthRequest</span><span class="o">.</span><span class="n">from_consumer_and_token</span><span class="p">(</span><span class="n">consumer</span><span class="p">,</span>
+                                                               <span class="n">token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span> <span class="n">http_method</span><span class="o">=</span><span class="s">'GET'</span><span class="p">,</span> <span class="n">http_url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+                                                               <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">)</span>
+    <span class="n">oauth_request</span><span class="o">.</span><span class="n">sign_request</span><span class="p">(</span><span class="n">oauth</span><span class="o">.</span><span class="n">OAuthSignatureMethod_HMAC_SHA1</span><span class="p">(),</span> <span class="n">consumer</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">oauth_request</span><span class="o">.</span><span class="n">to_url</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Notice that <code class="highlighter-rouge">python secrets = hidden.oauth()</code> is a function where we stored my keys to make the request on Twitter (you should sign up to have it).</p>
+
+<p>Once we do it, we received a json file with a lot of information; we weren’t interested on it totally so we filtered it and saved only the main features like:</p>
+
+<ol>
+  <li><strong>id</strong></li>
+  <li><strong>screen_name.</strong></li>
+  <li><strong>created_at.</strong></li>
+  <li><strong>full_text.</strong></li>
+</ol>
+
+<p>Here is an example:</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"tweet"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+       </span><span class="nl">"id"</span><span class="p">:</span><span class="s2">"1153004571129630721"</span><span class="p">,</span><span class="w">
+       </span><span class="nl">"screen_name"</span><span class="p">:</span><span class="s2">"pottermore"</span><span class="p">,</span><span class="w">
+       </span><span class="nl">"created_at"</span><span class="p">:</span><span class="s2">"Sun Jul 21 18:11:26 +0000 2019"</span><span class="p">,</span><span class="w">
+       </span><span class="nl">"full_text"</span><span class="p">:</span><span class="s2">"Wingardium Quiz-iosa! How much do this year's Comic Con attendees know about Harry Potter? Cursed Child's Nicholas Podany took to the streets of San Diego to find out. #SDCC2019 https:t.cogH5zB9BWUm"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="s2">"1150737091296468993"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"screen_name"</span><span class="p">:</span><span class="s2">"MotoGP"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"created_at"</span><span class="p">:</span><span class="s2">"Mon Jul 15 12:01:16 +0000 2019"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"full_text"</span><span class="p">:</span><span class="s2">" @marcmarquez93 did a bit of cross country running back in Argentina   The reigning World Champion seems to do a lot of running   #MotoGP https:t.coLYikFuOOB0"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+	</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>That it’s all! :D</p>
+
+  </body>
+</html>
