@@ -1,8 +1,8 @@
 - name: Home
-  link: /
+  link: /wir_project/
 
 - name: Dataset
-  link: /dataset.html
+  link: /wir_project/dataset.html
 
 - name: Twitter's API
-  link: /twitter.html
+  link: /wir_project/twitter.html
