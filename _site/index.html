@@ -4,29 +4,69 @@
     <meta charset="utf-8">
     <title>Homepage</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/solar/bootstrap.min.css" rel="stylesheet" integrity="sha384-8nq3OiMMgrVFAHyRMMO+DTfMEciSY+c3Awhj/5ljQ1xck1Uv2BUtMjsjLD8GT5Er" crossorigin="anonymous">
+    <style type="text/css">
+      .language-python {
+        background-color: #073642;
+        color: #DF408C;
+        border-radius: 5px;
+      }
+    </style>
+    <style type="text/css">
+      .language-json {
+        background-color: #073642;
+        color: #DF408C;
+        border-radius: 5px;
+      }
+    </style>
   </head>
   <body>
-    <nav>
+  	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   
-    <a href="/" class="current">Home</a>
+    <a class="navbar-brand" href="index.html">Home</a>
   
-    <a href="/dataset.html" >Dataset</a>
+    <a class="navbar-brand" href="dataset.html">Dataset</a>
   
-    <a href="/twitter.html" >Twitter's API</a>
+    <a class="navbar-brand" href="GT.html">Building the GT</a>
   
 </nav>
 
-    <!doctype html>
+  	<div class="jumbotron">
+  	  <h1 class="display-3">Homepage</h1>
+      <h3></h3>
+  	  <p class="lead">From the Web Information Retrieval's project</p>
+  	  <hr class="my-4">
+  	  <p>In the navbar you can find all the code names with their explanation.</p>
+  	</div>
+    <section class="m-5">
+      <!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Homepage</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
+    <h1>– Introduction</h1>
+    <h3>Building the dataset for our project wasn't so easy. </h3>
+    <p>Nowadays it's common to find unlabeled data
+        and labeling them is very time consuming, but sometimes it's necessary.<br>
+        We are dealing with social data, retrieved by Twitter: in our project we've tried to manually
+        classify tweets but wasn't easy because a quick look to them it's not enough.</p>
+
+    <h1>– Why classify tweets?</h1>
+    <p>The idea is the following: if I'm curious about some "Sports" news, I want to read them by
+        applying a simple filter about Sport and dinamically show the result with the newest/hottest tweets
+        about sport news.</p>
+    <p> But first of all, let's give a look to build a <a href = "dataset.html">dataset</a> from Twitter's API.</p>
   </body>
 </html>
 
+    </section>
   </body>
 </html>

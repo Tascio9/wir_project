@@ -15,16 +15,18 @@ How? First of all, we used Twitter's API to obtain tweets. We've researched them
                    'lang': 'en'})
 
 # Inside URL, you will put all the parameters in which you are interested:
-# -- q:             is the term searched (in my case, I've added 'from:@' because I wanted all the tweets
-#                   written by a specific user, you can modify it as you like);
+# -- q:             is the term searched (in our case, we've added 'from:@' because I wanted all the tweets
+#                   written by a specific user, you can modify it as you like. Otherwise if you use only
+#                   search[k] it produces tweets with that term);
 # -- count:         limits the number of tweets;
 # -- result_type:   choose between 'popular', 'recent', 'mixed';
-# -- tweet_mode:    with this parameter, we have the COMPLETE text of the tweet, otherwise, limited by 120 chars;
+# -- tweet_mode:    with this parameter, we have the COMPLETE text of the tweet, otherwise, it's limited by 120
+#                   chars;
 # -- lang:          only english tweets;
 
 # More details: https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets.html
 ```
-
+In addiction, we built the dataset by mixed up some tweets that randomly are taken just using a term and in some cases we use the clause "from:@" in order to get focus on a specific person/group and consequently classify them with the relevant label.
 As we can see, this script create a request to call the Twitter's API and catch all the tweets with that parameters. But to complete this request in a secured way, we need the following function to make it:
 
 ```python
@@ -40,7 +42,7 @@ def augment(url, parameters):
     return oauth_request.to_url()
 ```
 
-Notice that ```secrets = hidden.oauth()``` is a function where we stored my keys to make the request on Twitter (you should sign up to have it).
+Notice that ```secrets = hidden.oauth()``` is a function where we stored our keys to make the request on Twitter (you should sign up to have it).
 
 Once we do it, we received a JSON file with a lot of information; we weren't interested on it totally so we filtered it and saved only the main features like:
 

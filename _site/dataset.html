@@ -4,20 +4,48 @@
     <meta charset="utf-8">
     <title>Dataset</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cerulean/bootstrap.min.css" rel="stylesheet" integrity="sha384-C++cugH8+Uf86JbNOnQoBweHHAe/wVKN/mb0lTybu/NZ9sEYbd+BbbYtNpWYAsNP" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/solar/bootstrap.min.css" rel="stylesheet" integrity="sha384-8nq3OiMMgrVFAHyRMMO+DTfMEciSY+c3Awhj/5ljQ1xck1Uv2BUtMjsjLD8GT5Er" crossorigin="anonymous">
+    <style type="text/css">
+      .language-python {
+        background-color: #073642;
+        color: #DF408C;
+        border-radius: 5px;
+      }
+    </style>
+    <style type="text/css">
+      .language-json {
+        background-color: #073642;
+        color: #DF408C;
+        border-radius: 5px;
+      }
+    </style>
   </head>
   <body>
-    <nav>
+  	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   
-    <a href="/" >Home</a>
+    <a class="navbar-brand" href="index.html">Home</a>
   
-    <a href="/dataset.html" class="current">Dataset</a>
+    <a class="navbar-brand" href="dataset.html">Dataset</a>
   
-    <a href="/twitter.html" >Twitter's API</a>
+    <a class="navbar-brand" href="GT.html">Building the GT</a>
   
 </nav>
 
-    <h1 id="-dataset">– Dataset</h1>
+  	<div class="jumbotron">
+  	  <h1 class="display-3">Dataset</h1>
+      <h3></h3>
+  	  <p class="lead">From the Web Information Retrieval's project</p>
+  	  <hr class="my-4">
+  	  <p>In the navbar you can find all the code names with their explanation.</p>
+  	</div>
+    <section class="m-5">
+      <h1 id="-dataset">– Dataset</h1>
 
 <p>A first obstacle of our project was the absence of a dataset which contains tweets classified with our labels (AdministrativeArea, Book, …).</p>
 
@@ -29,17 +57,19 @@ How? First of all, we used Twitter’s API to obtain tweets. We’ve researched 
                    <span class="s">'lang'</span><span class="p">:</span> <span class="s">'en'</span><span class="p">})</span>
 
 <span class="c1"># Inside URL, you will put all the parameters in which you are interested:
-# -- q:             is the term searched (in my case, I've added 'from:@' because I wanted all the tweets
-#                   written by a specific user, you can modify it as you like);
+# -- q:             is the term searched (in our case, we've added 'from:@' because I wanted all the tweets
+#                   written by a specific user, you can modify it as you like. Otherwise if you use only
+#                   search[k] it produces tweets with that term);
 # -- count:         limits the number of tweets;
 # -- result_type:   choose between 'popular', 'recent', 'mixed';
-# -- tweet_mode:    with this parameter, we have the COMPLETE text of the tweet, otherwise, limited by 120 chars;
+# -- tweet_mode:    with this parameter, we have the COMPLETE text of the tweet, otherwise, it's limited by 120
+#                   chars;
 # -- lang:          only english tweets;
 </span>
 <span class="c1"># More details: https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets.html
 </span></code></pre></div></div>
-
-<p>As we can see, this script create a request to call the Twitter’s API and catch all the tweets with that parameters. But to complete this request in a secured way, we need the following function to make it:</p>
+<p>In addiction, we built the dataset by mixed up some tweets that randomly are taken just using a term and in some cases we use the clause “from:@” in order to get focus on a specific person/group and consequently classify them with the relevant label.
+As we can see, this script create a request to call the Twitter’s API and catch all the tweets with that parameters. But to complete this request in a secured way, we need the following function to make it:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">augment</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
     <span class="n">secrets</span> <span class="o">=</span> <span class="n">hidden</span><span class="o">.</span><span class="n">oauth</span><span class="p">()</span>
@@ -53,9 +83,9 @@ How? First of all, we used Twitter’s API to obtain tweets. We’ve researched 
     <span class="k">return</span> <span class="n">oauth_request</span><span class="o">.</span><span class="n">to_url</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p>Notice that <code class="highlighter-rouge">python secrets = hidden.oauth()</code> is a function where we stored my keys to make the request on Twitter (you should sign up to have it).</p>
+<p>Notice that <code class="highlighter-rouge">secrets = hidden.oauth()</code> is a function where we stored our keys to make the request on Twitter (you should sign up to have it).</p>
 
-<p>Once we do it, we received a json file with a lot of information; we weren’t interested on it totally so we filtered it and saved only the main features like:</p>
+<p>Once we do it, we received a JSON file with a lot of information; we weren’t interested on it totally so we filtered it and saved only the main features like:</p>
 
 <ol>
   <li><strong>id</strong></li>
@@ -64,27 +94,40 @@ How? First of all, we used Twitter’s API to obtain tweets. We’ve researched 
   <li><strong>full_text.</strong></li>
 </ol>
 
-<p>Here is an example:</p>
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"tweet"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-       </span><span class="nl">"id"</span><span class="p">:</span><span class="s2">"1153004571129630721"</span><span class="p">,</span><span class="w">
-       </span><span class="nl">"screen_name"</span><span class="p">:</span><span class="s2">"pottermore"</span><span class="p">,</span><span class="w">
-       </span><span class="nl">"created_at"</span><span class="p">:</span><span class="s2">"Sun Jul 21 18:11:26 +0000 2019"</span><span class="p">,</span><span class="w">
-       </span><span class="nl">"full_text"</span><span class="p">:</span><span class="s2">"Wingardium Quiz-iosa! How much do this year's Comic Con attendees know about Harry Potter? Cursed Child's Nicholas Podany took to the streets of San Diego to find out. #SDCC2019 https:t.cogH5zB9BWUm"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
+<p>Give a look to this code</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">full_text</span> <span class="o">=</span> <span class="n">remove_emoji</span><span class="p">(</span><span class="n">jsonData</span><span class="p">[</span><span class="s">'statuses'</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s">'full_text'</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'ascii'</span><span class="p">,</span> <span class="s">'ignore'</span><span class="p">))</span>
+                <span class="n">regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">r'[\n\r\t]'</span><span class="p">)</span>
+                <span class="n">strFull_text</span> <span class="o">=</span> <span class="n">regex</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">" "</span><span class="p">,</span> <span class="n">full_text</span><span class="p">)</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s">"</span><span class="se">\n\t</span><span class="s">{</span><span class="se">\n\t\"</span><span class="s">id</span><span class="se">\"</span><span class="s">:"</span> <span class="o">+</span> <span class="s">"</span><span class="se">\"</span><span class="s">"</span> <span class="o">+</span> <span class="n">jsonData</span><span class="p">[</span><span class="s">'statuses'</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s">'id_str'</span><span class="p">]</span> <span class="o">+</span> <span class="s">"</span><span class="se">\"</span><span class="s">"</span> <span class="o">+</span> <span class="s">","</span> <span class="o">+</span>
+                    <span class="s">"</span><span class="se">\t\"</span><span class="s">screen_name</span><span class="se">\"</span><span class="s">:"</span> <span class="o">+</span> <span class="s">"</span><span class="se">\"</span><span class="s">"</span> <span class="o">+</span> <span class="n">jsonData</span><span class="p">[</span><span class="s">'statuses'</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s">'user'</span><span class="p">][</span><span class="s">'screen_name'</span><span class="p">]</span> <span class="o">+</span> <span class="s">"</span><span class="se">\"</span><span class="s">"</span> <span class="o">+</span> <span class="s">","</span> <span class="o">+</span>
+                    <span class="s">"</span><span class="se">\t\"</span><span class="s">created_at</span><span class="se">\"</span><span class="s">:"</span> <span class="o">+</span> <span class="s">"</span><span class="se">\"</span><span class="s">"</span> <span class="o">+</span> <span class="n">jsonData</span><span class="p">[</span><span class="s">'statuses'</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="s">'created_at'</span><span class="p">]</span> <span class="o">+</span> <span class="s">"</span><span class="se">\"</span><span class="s">"</span> <span class="o">+</span> <span class="s">","</span> <span class="o">+</span>
+                    <span class="s">"</span><span class="se">\t\"</span><span class="s">full_text</span><span class="se">\"</span><span class="s">:"</span> <span class="o">+</span> <span class="s">"</span><span class="se">\"</span><span class="s">"</span> <span class="o">+</span> <span class="n">strFull_text</span> <span class="o">+</span> <span class="s">"</span><span class="se">\"</span><span class="s">"</span> <span class="o">+</span> <span class="s">"}</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>We striped all the tabs and newline in order to don’t have any problem when we save them inside a JSON file, in fact, we’ve used <code class="highlighter-rouge">f.write</code> to write it.</p>
 
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"id"</span><span class="p">:</span><span class="s2">"1150737091296468993"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"screen_name"</span><span class="p">:</span><span class="s2">"MotoGP"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"created_at"</span><span class="p">:</span><span class="s2">"Mon Jul 15 12:01:16 +0000 2019"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"full_text"</span><span class="p">:</span><span class="s2">" @marcmarquez93 did a bit of cross country running back in Argentina   The reigning World Champion seems to do a lot of running   #MotoGP https:t.coLYikFuOOB0"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-	</span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
+<p>Here there is an example of the output:</p>
+<pre><code class="language-JSON">{
+  "tweet": [
+    {
+       "id":"1153004571129630721",
+       "screen_name":"pottermore",
+       "created_at":"Sun Jul 21 18:11:26 +0000 2019",
+       "full_text":"Wingardium Quiz-iosa! How much do this year's Comic Con attendees know about Harry Potter? Cursed Child's Nicholas Podany took to the streets of San Diego to find out. #SDCC2019 https:t.cogH5zB9BWUm"
+    },
+
+    {
+      "id":"1150737091296468993",
+      "screen_name":"MotoGP",
+      "created_at":"Mon Jul 15 12:01:16 +0000 2019",
+      "full_text":" @marcmarquez93 did a bit of cross country running back in Argentina   The reigning World Champion seems to do a lot of running   #MotoGP https:t.coLYikFuOOB0"
+    }
+	]
+}
+</code></pre>
 
 <p>That it’s all! :D</p>
 
+    </section>
   </body>
 </html>

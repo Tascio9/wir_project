@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>{{ page.title }}</title>
+    <title>Ground Truth</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -27,16 +27,30 @@
     </style>
   </head>
   <body>
-  	{% include navigation.html %}
+  	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  
+    <a class="navbar-brand" href="index.html">Home</a>
+  
+    <a class="navbar-brand" href="dataset.html">Dataset</a>
+  
+    <a class="navbar-brand" href="GT.html">Building the GT</a>
+  
+</nav>
+
   	<div class="jumbotron">
-  	  <h1 class="display-3">{{ page.title }}</h1>
-      <h3>{{ page.code_title }}</h3>
+  	  <h1 class="display-3">Ground Truth</h1>
+      <h3></h3>
   	  <p class="lead">From the Web Information Retrieval's project</p>
   	  <hr class="my-4">
   	  <p>In the navbar you can find all the code names with their explanation.</p>
   	</div>
     <section class="m-5">
-      {{ content }}
+      <h1 id="-ground-truth">– Ground Truth</h1>
+<p>Once we have the dataset, composed by 459 tweets, we had to label it in order to build the ground truth.
+We have divided it in three parts and each one of them tried to classify the tweets using the label given by Google. The work was so time consuming, but necessary to test our hand-craft classifier.
+This process has been assisted by a script written by us in Python, which takes the dataset in JSON as input and then tweet-by-tweet, with the assistance of another script that suggest some tags given some entities, we were able to classify them without any problems (if you are interested on it, check out <a href="https://sergiopicca.github.io/wir_project/pages/ground">here</a>).
+The output produced is a CSV file, which is better for readability.</p>
+
     </section>
   </body>
 </html>
