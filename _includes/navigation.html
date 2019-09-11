@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#">TascioCode</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -7,7 +7,7 @@
     <ul class="navbar-nav mr-auto">
       {% for item in site.data.navigation %}
       <li class="nav-item active">
-        <a class="navbar-brand" href="{{ item.link }}">{{ item.name }}</a>
+        <a class="nav-link" href="{{ item.link }}">{{ item.name }}</a>
       </li>
       {% endfor %}
     </ul>
